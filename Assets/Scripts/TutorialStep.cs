@@ -8,32 +8,41 @@ namespace ArioSoren.TutorialKit
     {
         public int Step;
         [SerializeField] private List<GameObject> _highlightObjects;
-        [SerializeField] private HighlightType _highlightTypeName;
+        //[SerializeField] private HighlightType _highlightTypeName;
         [SerializeField] private RectTransform _dialogueFrame;
+        [SerializeField] private AudioSource _audioSource;
 
-        private HighlightBehavior _behaviour;
-        public bool Startable;
-        public string AdjustEventOnShow;
-        public string AdjustEventOnPass;
+        public HighlightBehavior Behaviour;
+        //public bool Startable;
+        //public string AdjustEventOnShow;
+        //public string AdjustEventOnPass;
 
-        public string AnalatycsEventOnShow;
-        public string AnalatycsEventOnPass;
+        //public string AnalatycsEventOnShow;
+        //public string AnalatycsEventOnPass;
+
+        public AudioClip AudioClip;
 
 
         private void Awake()
         {
-            _behaviour = GetComponent<HighlightBehavior>();
+            //_behaviour = GetComponent<HighlightBehavior>();
         }
         public void ShowStep()
         {
-            _behaviour.Init(_highlightObjects);
+            //_behaviour.Init(_highlightObjects);
 
-            _behaviour.Show();
+            Behaviour.Show();
             if (_dialogueFrame != null)
-            {
+                //{
                 OpenDialogue();
+            //}
+            foreach (GameObject go in _highlightObjects)
+            {
+                go.SetActive(true);
             }
-            
+
+            if (AudioClip != null)
+                _audioSource.PlayOneShot(AudioClip);
         }
 
         private void OpenDialogue()
@@ -44,10 +53,15 @@ namespace ArioSoren.TutorialKit
 
         public void HideStep()
         {
-            _behaviour.Hide();
+            Behaviour.Hide();
             if (_dialogueFrame != null)
             {
                 CloseDialogue();
+            }
+
+            foreach (GameObject go in _highlightObjects)
+            {
+                go.SetActive(false);
             }
         }
 
@@ -57,7 +71,5 @@ namespace ArioSoren.TutorialKit
             seq.Append(_dialogueFrame.DOScale(0, 0.03f).From(1));
 
         }
-
-
     }
 }

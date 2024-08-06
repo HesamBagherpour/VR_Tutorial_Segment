@@ -9,81 +9,99 @@ namespace ArioSoren.TutorialKit
         public event Action<int> StepStarted;
         public event Action<int> StepPassed;
         public event Action<bool, int> TutorialStateChanged;
-       
+
         [SerializeField] private List<TutorialStep> tutorialSteps;
-        public int lastStartedStep;
-         public int lastFinishedStep;
-      
+        //public int lastStartedStep;
+        //public int lastFinishedStep;
+        public int CurrentStep = -1;
 
-        public void ShowStep(int step, bool fromInit = false)
+
+        private void Start()
         {
-            if (step <= lastFinishedStep && !fromInit) return;
-            if(step>lastStartedStep+1) return;
+            Init();
+        }
+        public void NextStep()
+        {
+            HideStep(CurrentStep);
+            CurrentStep++;
+            //if (step <= lastFinishedStep && !fromInit) return;
+            //if (step > lastStartedStep + 1) return;
 
-            if (fromInit)
-            {
-                lastFinishedStep = step - 1;
-            }
-            var st = tutorialSteps.Find(s => s.Step == step);
-            if (st != null) st.ShowStep();
-            OnStepStarted(step);
+            //if (fromInit)
+            //{
+            //    lastFinishedStep = step - 1;
+            //}
+            //var st = tutorialSteps.Find(s => s.Step == step);
+            //if (st != null) st.ShowStep();
+            tutorialSteps[CurrentStep].ShowStep();
+            TutorialStateChanged?.Invoke(true, CurrentStep);
+            StepStarted?.Invoke(CurrentStep);
         }
 
         public void HideStep(int step)
         {
-            if (step <= lastFinishedStep) return;
-            if(step>lastStartedStep+1) return;
-            var st = tutorialSteps.Find(s => s.Step == step);
-            if (st != null) st.HideStep();
+            if (step < 0)
+                return;
+            //if (step <= lastFinishedStep) return;
+            //if (step > lastStartedStep + 1) return;
+            //var st = tutorialSteps.Find(s => s.Step == step);
+            //if (st != null)
+            tutorialSteps[step].HideStep();
 
-            OnStepPassed(step);
-        }
-
-        public void SetStep(int lastStartedStep, int lastFinishedStep)
-        {
-            this.lastStartedStep = lastStartedStep;
-            this.lastFinishedStep = lastFinishedStep;
-        }
-
-        protected virtual void OnStepPassed(int step)
-        {
-            lastFinishedStep = step;
+            //OnStepPassed(step);
             StepPassed?.Invoke(step);
-            
+
             TutorialStateChanged?.Invoke(false, step);
-           
         }
 
-        protected virtual void OnStepStarted(int step)
-        {
-            lastStartedStep = step;
-            TutorialStateChanged?.Invoke(true, step);
-            StepStarted?.Invoke(step);
-        }
+        //public void SetStep(int lastStartedStep, int lastFinishedStep)
+        //{
+        //    //this.lastStartedStep = lastStartedStep;
+        //    //this.lastFinishedStep = lastFinishedStep;
+        //}
+
+        //protected virtual void OnStepPassed(int step)
+        //{
+        //    //lastFinishedStep = step;
+        //    StepPassed?.Invoke(step);
+
+        //    TutorialStateChanged?.Invoke(false, step);
+
+        //}
+
+        //protected virtual void OnStepStarted(int step)
+        //{
+        //    //lastStartedStep = step;
+
+        //}
 
         public void Init()
         {
-            if (lastFinishedStep < lastStartedStep)
+            foreach (var step in tutorialSteps)
             {
-                var step = FindLastStartableStep(lastStartedStep);
-                ShowStep(step, true);
+                step.HideStep();
             }
+            //if (lastFinishedStep < lastStartedStep)
+            //{
+                //var step = FindLastStartableStep(lastStartedStep);
+                NextStep();
+            //}
         }
 
-        public int FindLastStartableStep(int lastStep)
-        {
-            while (true)
-            {
-                if (lastStep == 1) return 1;
+        //public int FindLastStartableStep(int lastStep)
+        //{
+        //    while (true)
+        //    {
+        //        if (lastStep == 1) return 1;
 
-                if (tutorialSteps.Find(s => s.Step == lastStep).Startable)
-                {
-                    return lastStep;
-                }
+        //        if (tutorialSteps.Find(s => s.Step == lastStep).Startable)
+        //        {
+        //            return lastStep;
+        //        }
 
-                lastStep -= 1;
-            }
-        }
+        //        lastStep -= 1;
+        //    }
+        //}
     }
 
     public enum HighlightType

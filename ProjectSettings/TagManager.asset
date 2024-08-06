@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Gun
+  - Bolt
+  - Right
+  - Left
+  - Clip
+  - Anchor
+  - Hand
+  - interactor
+  - ak47mag
+  - mp5mag
+  - pistolmag
   layers:
   - Default
   - TransparentFX

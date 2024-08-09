@@ -1564,6 +1564,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 633217032}
     m_Modifications:
+    - target: {fileID: 816372505414435638, guid: b061e4c2aefd2884e87f1a73a3b0be4d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6e7a6e5636abda24882bfbeffa0173cd, type: 2}
     - target: {fileID: 1954557869769621056, guid: b061e4c2aefd2884e87f1a73a3b0be4d,
         type: 3}
       propertyPath: m_Name
@@ -1767,6 +1772,7 @@ MonoBehaviour:
   targetColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 1
   AutoStart: 1
+  MaterialProperty: _EMISSION_COLOR
 --- !u!1 &409367927
 GameObject:
   m_ObjectHideFlags: 0
@@ -10261,6 +10267,7 @@ MonoBehaviour:
   targetColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 1
   AutoStart: 0
+  MaterialProperty: _BaseColor
 --- !u!114 &1118483256 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8047576390933802154, guid: ae12b1ba59bcf4444a70281f8a2856c9,
@@ -13342,6 +13349,7 @@ MonoBehaviour:
   targetColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 1
   AutoStart: 1
+  MaterialProperty: _BaseColor
 --- !u!1001 &1907655903
 PrefabInstance:
   m_ObjectHideFlags: 0

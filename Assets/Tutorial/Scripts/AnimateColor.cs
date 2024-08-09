@@ -8,6 +8,7 @@ public class AnimateColor : MonoBehaviour
     public Color targetColor = Color.red;
     public float duration = 1f;
     public bool AutoStart = false;
+    public string MaterialProperty = "_BaseColor";
 
     private Material material;
     private Color originalColor;
@@ -24,9 +25,9 @@ public class AnimateColor : MonoBehaviour
         if (objectRenderer != null)
         {
             material = objectRenderer.material;
-            if (material.HasProperty("_BaseColor"))
+            if (material.HasProperty(MaterialProperty))
             {
-                originalColor = material.GetColor("_BaseColor");
+                originalColor = material.GetColor(MaterialProperty);
                 AlloAnimationLoop = true;
                 StartCoroutine(GlowLoop());
             }
@@ -56,10 +57,10 @@ public class AnimateColor : MonoBehaviour
         float time = 0;
         while (time < lerpDuration)
         {
-            material.SetColor("_BaseColor", Color.Lerp(startColor, endColor, time / lerpDuration));
+            material.SetColor(MaterialProperty, Color.Lerp(startColor, endColor, time / lerpDuration));
             time += Time.deltaTime;
             yield return null;
         }
-        material.SetColor("_BaseColor", endColor);
+        material.SetColor(MaterialProperty, endColor);
     }
 }
